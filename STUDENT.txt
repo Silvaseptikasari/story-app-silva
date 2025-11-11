@@ -1,0 +1,14 @@
+APP_URL=http://localhost:5174
+MAP_SERVICE_API_KEY=<<isi_kunci_map_kamu (opsional, kosong juga boleh)>>
+
+# NOTE: Untuk Push Notification, tambahkan PUBLIC VAPID KEY pada file src/scripts/components/pushManager.js pada placeholder <<PASTE_PUBLIC_VAPID_KEY_HERE>>
+# Setelah deploy, ganti APP_URL menjadi URL publik hasil deploy.
+
+# Untuk produksi: jalankan npm install lalu npm run build. Setelah build, deploy folder hasil build (dist) ke hosting (GitHub Pages / Netlify / Firebase Hosting).
+
+
+# Testing offline sync:
+# 1. Jalankan aplikasi secara lokal (npm run dev).
+# 2. Buka devtools, Application -> Service Workers (enable offline if needed) atau set network offline.
+# 3. Tambah story dengan foto (jika ada) — saat offline, story disimpan di IndexedDB.
+# 4. Kembali online -> sistem akan otomatis mencoba sinkronisasi ke POST https://story-api.dicoding.dev/v1/stories.

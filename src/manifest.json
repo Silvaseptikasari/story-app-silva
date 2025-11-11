@@ -1,0 +1,19 @@
+{
+  "name": "Silva Story App",
+  "short_name": "SilvaStory",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2b6cb0",
+  "icons": [
+    {
+      "src": "/src/public/silva.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "description": "Silva Story - SPA PWA for submitting stories with maps and offline support.",
+  "screenshots": []
+}

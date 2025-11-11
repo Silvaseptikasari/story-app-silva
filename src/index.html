@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projek Pertama - Story App Silva</title>
+
+    <!-- (Opsional) MapTiler Key -->
+    <meta name="map-tiler-key" content="" />
+
+    <!-- SEO & Aksesibilitas -->
+    <meta
+      name="description"
+      content="Aplikasi berbagi story berbasis web dengan kamera, peta, dan SPA (Single Page Application) menggunakan pola MVP."
+    />
+    <meta name="author" content="Silva Septika Sari" />
+
+    <!-- Favicon / Logo -->
+    <link rel="icon" href="/silva.png" type="image/png" />
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <!-- Style utama -->
+    <link rel="stylesheet" href="/styles/styles.css" />
+
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="/src/manifest.json" />
+    <meta name="theme-color" content="#2b6cb0" />
+  </head>
+
+  <body>
+    <!-- Skip link (aksesibilitas keyboard) -->
+    <a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+    <!-- Header -->
+    <header id="app-header" role="banner" aria-label="Header aplikasi">
+      <!-- ⚠️ Logo-area dihapus agar tidak duplikat dengan AppShell -->
+      <h1>Projek Pertama - Story App Silva</h1>
+      <p>Bagikan momen terbaikmu dengan mudah dan cepat 📸</p>
+
+      <!-- Navigasi utama -->
+      <nav id="app-nav" role="navigation" aria-label="Navigasi utama">
+        <ul>
+          <li><a href="#/" title="Beranda">Beranda</a></li>
+          <li><a href="#/add" title="Tambah Story">Tambah Story</a></li>
+          <li><a href="#/login" title="Masuk">Masuk</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Konten utama -->
+    <main id="main" role="main" tabindex="-1" aria-live="polite">
+      <section aria-labelledby="section-story">
+        <h2 id="section-story">Daftar Story Terbaru</h2>
+        <!-- Konten dinamis di-render oleh main.js -->
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="app-footer" role="contentinfo">
+      <p>&copy; 2025 Projek Pertama oleh Silva Septika Sari.</p>
+      <p>
+        Dibuat dengan ❤️ menggunakan API Dicoding Story dan standar
+        Aksesibilitas Web (WCAG 2.1).
+      </p>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <!-- Skrip utama -->
+    <script type="module" src="/scripts/main.js"></script>
+
+    <!-- Firebase (FCM) -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging.js"></script>
+    <script>
+      // === AUTO-ACTIVE PUSH NOTIFICATION (FCM) ===
+      (function () {
+        // 🔧 Ganti nilai di bawah dengan konfigurasi Firebase kamu
+        const firebaseConfig = {
+          apiKey: "YOUR_API_KEY",
+          authDomain: "YOUR_PROJECT.firebaseapp.com",
+          projectId: "YOUR_PROJECT_ID",
+          storageBucket: "YOUR_PROJECT.appspot.com",
+          messagingSenderId: "YOUR_SENDER_ID",
+          appId: "YOUR_APP_ID",
+        };
+
+        const PUBLIC_VAPID_KEY = "YOUR_PUBLIC_VAPID_KEY_OR_SERVER_KEY";
+
+        try {
+          if (typeof firebase !== "undefined") {
+            firebase.initializeApp(firebaseConfig);
+            const messaging = firebase.messaging();
+
+            async function activateFCM() {
+              try {
+                const permission = await Notification.requestPermission();
+                if (permission !== "granted") {
+                  console.warn("Izin notifikasi tidak diberikan");
+                  return;
+                }
+
+                const token = await messaging.getToken({ vapidKey: PUBLIC_VAPID_KEY });
+                console.log("FCM token:", token);
+                localStorage.setItem("fcm_token", token);
+
+                try {
+                  showToast("Notifikasi diaktifkan", "success");
+                } catch (e) {
+                  console.log("toast tidak ditemukan", e);
+                }
+
+                // TODO: Kirim token ini ke server jika ingin kirim notifikasi push
+              } catch (err) {
+                console.error("Aktivasi FCM gagal", err);
+                try {
+                  showToast("Gagal mengaktifkan notifikasi", "error");
+                } catch (e) {}
+              }
+            }
+
+            if ("serviceWorker" in navigator && "Notification" in window) {
+              navigator.serviceWorker.ready
+                .then(() => activateFCM())
+                .catch(() => activateFCM());
+            }
+          }
+        } catch (e) {
+          console.error("Kesalahan inisialisasi Firebase", e);
+        }
+      })();
+    </script>
+  </body>
+</html>

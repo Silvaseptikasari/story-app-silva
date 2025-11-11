@@ -1,0 +1,30 @@
+JALANKAN SERVER:
+
+klikpackage.json
+
+klik terminal
+
+Masukkan pada file dulu di terminal:
+
+
+selanjut nya ini:
+npm install
+npm run dev
+
+nanti akan muncul Local: http://localhost:5174/
+----------------------------------------------
+
+BERHENTIKAN SERVER:
+
+Pergi ke terminal tempat npm run dev sedang berjalan.
+(biasanya ada log VITE v6.x.x ready dan alamat http://localhost:5174/).
+
+Tekan di keyboard:
+CTRL + C
+(tahan Ctrl, lalu tekan C sekali).
+
+PowerShell biasanya akan tanya:
+Terminate batch job (Y/N)?
+→ Ketik Y lalu tekan Enter.
+
+✅ Setelah itu server mati. Terminal jadi bisa dipakai untuk ketik perintah lain lagi.
